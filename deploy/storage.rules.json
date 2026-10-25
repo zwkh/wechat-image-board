@@ -1,1 +1,4 @@
-{ "read": false, "write": false }
+{
+  "read": false,
+  "write": "auth.openid == '请替换为管理员OPENID' && /^uploads\\//.test(resource.path)"
+}

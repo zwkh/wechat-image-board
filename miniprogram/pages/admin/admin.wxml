@@ -25,6 +25,8 @@
       <button class="secondary" disabled="{{busy}}" bindtap="chooseImage">{{selectedPath ? '重新选择' : '从相册或相机选择'}}</button>
       <button class="primary" disabled="{{!selectedPath || busy}}" loading="{{busy}}" bindtap="publish">{{busy ? '正在处理…' : '确认并发布'}}</button>
       <view class="muted upload-note">选择图片后需点击发布。更新时间以发布成功时的服务端时间为准。</view>
+      <button class="permission-link" disabled="{{busy}}" bindtap="copyStorageRule">首次部署：复制我的云存储权限规则</button>
+      <view class="muted upload-note">首次使用新版上传，请把规则粘贴到云开发控制台 → 云存储 → 权限设置 → 自定义安全规则。保存生效后再上传。</view>
     </view>
     <button class="secondary" disabled="{{busy}}" bindtap="reload">刷新当前图片</button>
     <button class="back-link" disabled="{{busy}}" bindtap="goHome">返回展示页 ↗</button>

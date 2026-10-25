@@ -16,3 +16,4 @@
 .notice { margin-top: 28rpx; padding: 26rpx; background: #e7f0e9; border-radius: 16rpx; color: #37684d; line-height: 1.8; font-size: 25rpx; }
 .back-link { background: transparent; color: #597563; margin-top: 24rpx; font-size: 25rpx; }
 .publish-progress { margin-top: 20rpx; }
+.permission-link { background: transparent; color: #597563; font-size: 23rpx; margin-top: 22rpx; padding: 0; line-height: 1.8; text-align: left; }

@@ -65,4 +65,27 @@ function invoke(api, options = {}, settings = {}) {
   });
 }
 
-module.exports = { callApi, invoke };
+async function uploadImage(filePath, cloudPath, onProgress) {
+  try {
+    const uploaded = await invoke(options => {
+      const task = wx.cloud.uploadFile(options);
+      if (task && typeof task.onProgressUpdate === 'function' && onProgress) {
+        task.onProgressUpdate(result => onProgress(result.progress));
+      }
+      return task;
+    }, { filePath, cloudPath }, {
+      timeoutMs: 60000, timeoutCode: 'UPLOAD_TIMEOUT', timeoutMessage: '图片上传超时，请检查网络后重试'
+    });
+    if (!uploaded || !uploaded.fileID) throw new Error('图片上传没有返回文件 ID，请重试');
+    return uploaded;
+  } catch (error) {
+    const detail = String(error.errMsg || error.message || '');
+    const denied = /permission|denied|unauthorized|-502003|-502005|权限/i.test(detail);
+    const failure = new Error(denied ? '云存储拒绝上传，请按新版部署说明将写权限配置为仅你的 OpenID 可写' : (error.message || '图片上传失败，请检查网络及云存储状态'));
+    failure.code = error.code || (denied ? 'STORAGE_PERMISSION' : 'UPLOAD_FAILED');
+    console.error('image upload failed', { code: failure.code, detail: detail.slice(0, 300) });
+    throw failure;
+  }
+}
+
+module.exports = { callApi, invoke, uploadImage };
