@@ -1,0 +1,22 @@
+<view class="page home">
+  <view class="brand"><view class="brand-mark">图</view><text>图讯</text><view class="brand-line"></view></view>
+  <view class="eyebrow">IMAGE BOARD</view>
+  <view class="title">{{title}}</view>
+  <view class="subtitle">每一次打开，看到最新发布的内容。</view>
+
+  <view class="card">
+    <view wx:if="{{loading}}" class="message"><view class="loader"></view><view class="muted">正在获取最新图片…</view></view>
+    <view wx:elif="{{error}}" class="message">
+      <view class="message-title">暂时无法加载</view><view class="muted">{{error}}</view>
+      <button class="secondary" bindtap="loadCurrent">重新加载</button>
+    </view>
+    <block wx:elif="{{imageUrl}}">
+      <image wx:if="{{!imageError}}" class="main-image" src="{{imageUrl}}" mode="widthFix" show-menu-by-longpress="{{true}}" bindtap="previewImage" binderror="onImageError" />
+      <view wx:else class="message"><view class="message-title">图片加载失败</view><view class="muted">请检查网络，再重新加载</view><button class="secondary" bindtap="loadCurrent">重新加载</button></view>
+      <view class="image-caption"><view class="status-dot"></view><view><text class="caption-label">最后更新</text><view class="caption-time">{{updatedText}}<text class="timezone">（北京时间）</text></view></view></view>
+    </block>
+    <view wx:else class="message empty"><view class="empty-symbol">＋</view><view class="message-title">图片即将发布</view><view class="muted">管理员发布后，即可在这里查看。</view></view>
+  </view>
+  <view class="view-hint" wx:if="{{imageUrl && !loading && !error && !imageError}}">轻点图片放大查看 · 下拉刷新</view>
+  <view class="footer"><text class="footer-label">让信息，简单抵达。</text><button class="admin-link" bindtap="openAdmin">管理入口 ↗</button></view>
+</view>

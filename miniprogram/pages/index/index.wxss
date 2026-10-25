@@ -1,0 +1,18 @@
+.home { min-height: 100vh; }
+.brand { display: flex; align-items: center; gap: 14rpx; font-size: 27rpx; font-weight: 600; margin-bottom: 78rpx; }
+.brand-mark { background: #216b55; color: #fff; width: 48rpx; height: 48rpx; border-radius: 14rpx; text-align: center; line-height: 48rpx; font-size: 25rpx; }
+.brand-line { height: 1rpx; background: #dce6df; flex: 1; margin-left: 16rpx; }
+.main-image { width: 100%; display: block; background: #ecf1ee; }
+.image-caption { display: flex; gap: 20rpx; padding: 30rpx; align-items: flex-start; }
+.status-dot { width: 12rpx; height: 12rpx; background: #39896a; border-radius: 50%; margin-top: 10rpx; flex-shrink: 0; }
+.caption-label { font-size: 22rpx; color: #789083; }
+.caption-time { margin-top: 8rpx; font-size: 25rpx; line-height: 1.6; }
+.timezone { color: #87978e; font-size: 20rpx; }
+.view-hint { text-align: center; color: #8b9a92; font-size: 22rpx; margin-top: 26rpx; }
+.footer { display: flex; justify-content: space-between; align-items: center; gap: 20rpx; margin-top: 70rpx; }
+.footer-label { color: #8a9a91; font-size: 22rpx; }
+.admin-link { background: transparent; color: #6c8275; margin: 0; padding: 14rpx 0 14rpx 20rpx; font-size: 23rpx; line-height: 1.5; }
+.empty { padding: 90rpx 24rpx; }
+.empty-symbol { margin: 0 auto 32rpx; width: 90rpx; height: 90rpx; line-height: 84rpx; font-size: 52rpx; color: #5d8b72; background: #eef5ef; border-radius: 26rpx; }
+.loader { width: 40rpx; height: 40rpx; border: 4rpx solid #e1ece4; border-top-color: #216b55; border-radius: 50%; margin: 14rpx auto 30rpx; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

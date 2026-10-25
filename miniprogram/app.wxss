@@ -1,0 +1,17 @@
+page { background: #f5f7f6; color: #19332e; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; font-size: 28rpx; }
+view, text, button, image { box-sizing: border-box; }
+button { font-size: 28rpx; }
+button::after { border: none; }
+.page { padding: 44rpx 36rpx 40rpx; padding-bottom: calc(40rpx + env(safe-area-inset-bottom)); }
+.eyebrow { color: #527268; font-size: 21rpx; letter-spacing: 5rpx; font-weight: 600; }
+.title { font-size: 48rpx; font-weight: 650; line-height: 1.4; margin-top: 16rpx; letter-spacing: 1rpx; }
+.subtitle { color: #71837c; font-size: 25rpx; line-height: 1.8; margin-top: 12rpx; }
+.card { margin-top: 40rpx; background: #fff; border-radius: 28rpx; overflow: hidden; border: 1rpx solid #e5ece8; }
+.primary { background: #216b55; color: #fff; border-radius: 18rpx; line-height: 88rpx; font-weight: 600; margin-top: 28rpx; }
+.primary[disabled] { background: #dce5e0; color: #899b91; }
+.secondary { background: #eaf1ed; color: #285c49; border-radius: 18rpx; line-height: 82rpx; margin-top: 22rpx; }
+.muted { color: #7e8d86; font-size: 24rpx; line-height: 1.8; }
+.message { padding: 56rpx 36rpx; text-align: center; }
+.message-title { font-size: 31rpx; font-weight: 600; margin-bottom: 16rpx; }
+.error { background: #fff3eb; color: #905833; padding: 24rpx; border-radius: 16rpx; line-height: 1.8; font-size: 25rpx; margin-top: 28rpx; overflow-wrap: break-word; }
+.section-label { font-size: 23rpx; color: #60786b; font-weight: 600; }

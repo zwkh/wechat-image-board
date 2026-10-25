@@ -1,0 +1,7 @@
+{
+  "desc": "只允许展示页被索引",
+  "rules": [
+    { "action": "allow", "page": "pages/index/index" },
+    { "action": "disallow", "page": "pages/admin/admin" }
+  ]
+}

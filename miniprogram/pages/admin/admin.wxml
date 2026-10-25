@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="eyebrow">MANAGE</view><view class="title">图片管理</view><view class="subtitle">发布一张图片，让每个人看到最新内容。</view>
+  <view wx:if="{{notice}}" class="notice" role="alert">{{notice}}</view>
+  <view wx:if="{{busyText}}" class="muted publish-progress">{{busyText}}</view>
+  <view wx:if="{{loading}}" class="card message muted">正在验证微信身份…</view>
+  <view wx:elif="{{error}}" class="error">{{error}}<button class="secondary" disabled="{{busy}}" bindtap="reload">重新加载</button></view>
+  <view wx:elif="{{!isAdmin}}" class="card permission-card">
+    <view class="message-title">当前微信没有发布权限</view><view class="muted">只有指定的管理员可以更换图片。若你是本小程序的维护者，请按部署说明配置管理员身份。</view>
+    <view class="identity-label">当前微信 OpenID</view><text class="openid" selectable="{{true}}">{{openid}}</text>
+    <button class="secondary" bindtap="copyOpenid">复制我的 OpenID</button><button class="secondary" bindtap="reload">重新验证权限</button><button class="primary" bindtap="goHome">返回查看图片</button>
+  </view>
+  <block wx:else>
+    <view class="admin-badge"><view class="badge-dot"></view>已验证 · 管理员</view>
+    <view class="card current-card"><view class="section-label">当前发布</view>
+      <image wx:if="{{imageUrl && !currentImageError}}" class="current-image" src="{{imageUrl}}" mode="aspectFit" binderror="onCurrentImageError" />
+      <view wx:elif="{{currentImageError}}" class="muted current-empty">图片加载失败，请重新加载</view>
+      <view wx:else class="muted current-empty">还没有发布图片</view>
+      <view wx:if="{{updatedText}}" class="muted">最后更新：{{updatedText}}（北京时间）</view>
+      <view class="muted version">版本 {{version}}</view>
+    </view>
+    <view class="card upload-card"><view class="section-label">替换图片</view>
+      <image wx:if="{{selectedPath}}" class="selected-image" src="{{selectedPath}}" mode="widthFix" bindtap="previewSelected" />
+      <view wx:else class="upload-placeholder"><view class="upload-plus">＋</view><view>选择要发布的新图片</view></view>
+      <view class="muted file-hint">JPG / PNG / WebP · 最大 2MB<text wx:if="{{selectedPath}}"> · {{selectedSize}}</text></view>
+      <button class="secondary" disabled="{{busy}}" bindtap="chooseImage">{{selectedPath ? '重新选择' : '从相册或相机选择'}}</button>
+      <button class="primary" disabled="{{!selectedPath || busy}}" loading="{{busy}}" bindtap="publish">{{busy ? '正在处理…' : '确认并发布'}}</button>
+      <view class="muted upload-note">选择图片后需点击发布。更新时间以发布成功时的服务端时间为准。</view>
+    </view>
+    <button class="secondary" disabled="{{busy}}" bindtap="reload">刷新当前图片</button>
+    <button class="back-link" disabled="{{busy}}" bindtap="goHome">返回展示页 ↗</button>
+  </block>
+</view>
