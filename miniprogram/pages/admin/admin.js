@@ -1,6 +1,6 @@
 const { callApi, invoke, uploadImage } = require('../../utils/api');
 const { formatTime } = require('../../utils/time');
-const MAX_BYTES = 2 * 1024 * 1024;
+const MAX_BYTES = 300 * 1024 * 1024;
 
 Page({
   data: {
@@ -33,10 +33,13 @@ Page({
     try {
       const result = await invoke(wx.chooseMedia, { count: 1, mediaType: ['image'], sourceType: ['album', 'camera'], sizeType: ['original'] });
       const file = result.tempFiles[0];
-      if (!file || !file.size || file.size > MAX_BYTES) throw new Error('请选择不超过 2MB 的图片，较大图片请先压缩');
+      if (!file || !Number.isSafeInteger(file.size) || file.size <= 0 || file.size > MAX_BYTES) throw new Error('请选择不超过 300MB 的图片，较大图片请先压缩');
       const info = await invoke(wx.getImageInfo, { src: file.tempFilePath });
       if (!['jpeg', 'jpg', 'png', 'webp'].includes(info.type)) throw new Error('仅支持 JPG、PNG、WebP 图片，请先转换格式');
-      this.setData({ selectedPath: file.tempFilePath, selectedSize: `${(file.size / 1024).toFixed(0)} KB`, selectedType: info.type === 'jpeg' ? 'jpg' : info.type, notice: '' });
+      const selectedSize = file.size >= 1024 * 1024
+        ? `${(file.size / (1024 * 1024)).toFixed(2)} MB`
+        : `${Math.max(1, Math.ceil(file.size / 1024))} KB`;
+      this.setData({ selectedPath: file.tempFilePath, selectedSize, selectedType: info.type === 'jpeg' ? 'jpg' : info.type, notice: '' });
     } catch (error) {
       if (/cancel/.test(error.errMsg || '')) return;
       wx.showModal({ title: '无法选择图片', content: error.message || '请检查相册授权或微信隐私授权后重试', showCancel: false });

@@ -110,6 +110,19 @@ test('成功发布保留文件 ID，并忽略客户端时间', async () => {
   assert.equal(state.record.updatedAt, 1700000000000);
 });
 
+test('服务端允许恰好 300MB，超出一个字节拒绝且不更新当前记录', async () => {
+  const content = Buffer.alloc(300 * 1024 * 1024 + 1);
+  png.copy(content);
+  const accepted = setup({ fileContent: content.subarray(0, 300 * 1024 * 1024) });
+  assert.equal((await accepted.call(publication(0))).ok, true);
+  assert.equal(accepted.state.record.version, 1);
+  const rejected = setup({ fileContent: content });
+  const result = await rejected.call(publication(0));
+  assert.equal(result.code, 'INVALID_IMAGE');
+  assert.match(result.message, /300MB/);
+  assert.equal(rejected.state.record.version, 0);
+});
+
 test('513KB 图片仍只需要小型发布参数，并由服务端检查实际文件', async () => {
   const content = Buffer.alloc(513 * 1024);
   png.copy(content);

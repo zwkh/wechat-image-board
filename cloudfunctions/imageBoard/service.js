@@ -1,4 +1,4 @@
-const MAX_BYTES = 2 * 1024 * 1024;
+const MAX_BYTES = 300 * 1024 * 1024;
 const COLLECTION = 'image_board';
 const DEFAULT_TIMEOUTS = { read: 8000, download: 20000, commit: 8000, url: 8000 };
 
@@ -16,7 +16,7 @@ function withDeadline(operation, timeoutMs, code, message) {
 }
 
 function inspectImage(buffer) {
-  if (!Buffer.isBuffer(buffer) || !buffer.length || buffer.length > MAX_BYTES) throw new BusinessError('INVALID_IMAGE', '图片不能为空且不能超过 2MB');
+  if (!Buffer.isBuffer(buffer) || !buffer.length || buffer.length > MAX_BYTES) throw new BusinessError('INVALID_IMAGE', '图片不能为空且不能超过 300MB');
   let extension = '';
   if (buffer.length >= 24 && buffer.subarray(0, 8).equals(Buffer.from('89504e470d0a1a0a', 'hex')) && buffer.toString('ascii', 12, 16) === 'IHDR') extension = 'png';
   if (buffer.length >= 4 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) extension = 'jpg';

@@ -76,6 +76,31 @@ test('管理页非管理员不会进入发布表单的数据加载流程', async
 function readyAdmin(page) {
   Object.assign(page.data, { loading: false, isAdmin: true, openid: 'owner', selectedPath: '/selected.png', selectedType: 'png', version: 0 });
 }
+
+test('选图允许 300MB 边界并显示 MB，超限及非法大小不读取图片', async () => {
+  for (const [size, expected] of [[513 * 1024, '513 KB'], [3 * 1024 * 1024, '3.00 MB'], [300 * 1024 * 1024, '300.00 MB'], [300 * 1024 * 1024 + 1, null], [0, null], [-1, null], [NaN, null]]) {
+    let imageReads = 0;
+    let message = '';
+    const wx = { chooseMedia() {}, getImageInfo() {}, showModal(options) { message = options.content; } };
+    const { page } = pageHarness('admin', { invoke: async api => {
+      if (api === wx.chooseMedia) return { tempFiles: [{ size, tempFilePath: '/large.png' }] };
+      imageReads++;
+      return { type: 'png' };
+    } }, wx);
+    readyAdmin(page);
+    page.data.selectedPath = '';
+    await page.chooseImage();
+    if (expected) {
+      assert.equal(page.data.selectedPath, '/large.png');
+      assert.equal(page.data.selectedSize, expected);
+      assert.equal(message, '');
+    } else {
+      assert.equal(page.data.selectedPath, '');
+      assert.equal(imageReads, 0);
+      assert.match(message, /300MB/);
+    }
+  }
+});
 function nativeWx(cloud) {
   return {
     cloud,
